@@ -1,17 +1,34 @@
-FROM node:11.1-alpine
+FROM centos:7.5.1804
 LABEL maintainer="wuxingzhong <wuxingzhong@sunniwell.net>"
 
 ARG VERSION=3.2.3
 
 LABEL version=$VERSION
 
-RUN apk add --no-cache git python \
+ADD simsun.ttc /usr/share/fonts/truetype/simsun.ttc
+
+RUN set -x \
+	&& yum install -y epel-release \
+	&& BUILD_DEPS=" \
+		wget \
+		git \
+		npm \
+		python \
+		xdg-utils \
+		libX11-devel \
+		libGL-devel \
+		libqtxdg-devel \
+		libXrender-devel \
+		libXcomposite-devel \
+	" \
+	&& yum install -y $BUILD_DEPS \
 	&& npm install -g gitbook-cli \
 	&& gitbook fetch ${VERSION} \
 	&& wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh |  sh /dev/stdin \
 	&& npm cache clear  --force \
-	&& rm -rf /tmp/* \ 
-
+	&& rm -rf /tmp/* \
+	&& yum clean all \
+	&& rm -rf /var/cache/yum
 
 WORKDIR /srv/gitbook
 
