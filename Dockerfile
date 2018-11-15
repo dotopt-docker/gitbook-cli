@@ -22,6 +22,7 @@ RUN set -x \
 		libXcomposite-devel \
 	" \
 	&& yum install -y $BUILD_DEPS \
+	&& npm install -g mermaid.cli  \
 	&& npm install -g gitbook-cli \
 	&& gitbook fetch ${VERSION} \
 	&& wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh |  sh /dev/stdin \
