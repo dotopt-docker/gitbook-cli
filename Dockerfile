@@ -3,9 +3,9 @@ LABEL maintainer="wuxingzhong <wuxingzhong@sunniwell.net>"
 
 ARG VERSION=3.2.3
 LABEL version=$VERSION
+ADD simsun.ttc /root/.fonts/simsun.ttc
+# ADD simsun.ttc /usr/share/fonts/truetype/simsun.ttc
 
-ADD simsun.ttc /usr/share/fonts/truetype/simsun.ttc
- 
 RUN set -x  \
     && sed  -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
 	&& apt-get update \
@@ -23,6 +23,7 @@ RUN set -x  \
 	&& gitbook fetch ${VERSION} \
 	&& wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh |  sh /dev/stdin \
 	&& npm cache clear  --force \
+	&& fc-cache  \
 	&& rm -rf /tmp/* 
 
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 
