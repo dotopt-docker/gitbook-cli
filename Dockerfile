@@ -10,13 +10,14 @@ RUN set -x  \
     && sed  -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
 	&& apt-get update \
 	&& BUILD_DEPS=" \
-		chromium  \
-		chromium-l10n \
+		libgconf-2-4 \
+		chromium=70.0.3538.110-1~deb9u1  \
+		chromium-l10n=70.0.3538.110-1~deb9u1 \
 		wget \
 		git \
 		python \
 	" \
-	&& apt-get install --no-install-recommends --no-install-suggests -y $BUILD_DEPS \
+	&& apt-get install --no-install-recommends --no-install-suggests -yq $BUILD_DEPS \
 	&& npm install -g cnpm --registry=https://registry.npm.taobao.org \
 	&& cnpm install -g mermaid.cli  \
 	&& cnpm install -g gitbook-cli \
